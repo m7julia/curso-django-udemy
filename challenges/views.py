@@ -1,20 +1,21 @@
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 import datetime
 from django.urls import reverse 
+from django.shortcuts import render
 
 monthly_challenges = {
-    "janeiro": "Desafio: Ler pelo menos 1 capítulo de um livro por dia.",
-    "fevereiro": "Desafio: Fazer uma caminhada de pelo menos 20 minutos por dia.",
-    "marco" : "Desafio: Aprender algo novo durante 15 minutos por dia.",
-    "abril" : "Desafio: Beber pelo menos 2 litros de água por dia.",
-    "maio" : "Desafio: Organizar um espaço da casa por pelo menos 10 minutos por dia.",
-    "junho" : "Desafio: Escrever em um diário pelo menos 3 vezes por semana.",
-    "julho" : "Desafio: Passar pelo menos 30 minutos por dia sem usar redes sociais.",
-    "agosto" : "Desafio: Fazer pelo menos 20 minutos de atividade física por dia.",
-    "setembro" : "Desafio: Ler 10 páginas de um livro por dia.",
-    "outubro" : "Desafio: Fazer uma atividade criativa durante pelo menos 20 minutos por dia.",
-    "novembro" : "Desafio: Agradecer por uma coisa boa que aconteceu no dia.",
-    "dezembro" : "Desafio: Fazer uma boa ação por dia."
+    "janeiro": "Ler pelo menos 1 capítulo de um livro por dia.",
+    "fevereiro": "Fazer uma caminhada de pelo menos 20 minutos por dia.",
+    "marco" : "Aprender algo novo durante 15 minutos por dia.",
+    "abril" : "Beber pelo menos 2 litros de água por dia.",
+    "maio" : "Organizar um espaço da casa por pelo menos 10 minutos por dia.",
+    "junho" : "Escrever em um diário pelo menos 3 vezes por semana.",
+    "julho" : "Passar pelo menos 30 minutos por dia sem usar redes sociais.",
+    "agosto" : "Fazer pelo menos 20 minutos de atividade física por dia.",
+    "setembro" : "Ler 10 páginas de um livro por dia.",
+    "outubro" : "Fazer uma atividade criativa durante pelo menos 20 minutos por dia.",
+    "novembro" : "Agradecer por uma coisa boa que aconteceu no dia.",
+    "dezembro" : "Fazer uma boa ação por dia."
 }
 
 def index(request):
@@ -43,7 +44,10 @@ def monthly_challenge_by_number(request, month):
 def monthly_challenge(request, month):
     try:
         challenge_text = monthly_challenges[month]
-        response_data  = f"<h1>{challenge_text}</h1>"
-        return HttpResponse(response_data)
+        return render(request, "challenges/challenge.html", {
+            "text": challenge_text
+        })
     except:
         return HttpResponseNotFound("<h1>Esse mês é invalido</h1>")
+    
+
